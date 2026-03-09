@@ -232,7 +232,7 @@ Full list, phân trang, filter by type, mark as read.
 | File | Action | Description |
 |------|--------|-------------|
 | `supabase/migrations/20260315000016_sprint16_notifications.sql` | NEW | Table + RLS + triggers |
-| `desktop/migrations/007-sprint16-notifications.sql` | NEW | SQLite version |
+| `desktop/migrations/008-sprint16-notifications.sql` | NEW | SQLite version |
 | `src/lib/supabase-data-notifications.ts` | NEW | Data layer (5 functions) |
 | `src/hooks/use-notifications.ts` | NEW | React Query hooks |
 | `src/types/index.ts` | MODIFY | Notification type |

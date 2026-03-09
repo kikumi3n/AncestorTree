@@ -2,8 +2,8 @@
  * @project AncestorTree
  * @file src/components/layout/app-sidebar.tsx
  * @description Main navigation sidebar component
- * @version 2.2.0
- * @updated 2026-02-28
+ * @version 2.9.0
+ * @updated 2026-03-09
  */
 
 'use client';
@@ -52,8 +52,17 @@ import {
   RotateCcw,
   DatabaseBackup,
   HelpCircle,
+  Download,
+  Upload,
+  Copy,
+  Route,
+  BarChart3,
+  MessageSquare,
+  Bell,
+  Landmark,
 } from 'lucide-react';
 import { useAuth } from '@/components/auth/auth-provider';
+import { useElderly } from '@/contexts/elderly-context';
 import { CLAN_NAME, CLAN_FULL_NAME } from '@/lib/clan-config';
 import { useClanSettings } from '@/hooks/use-clan-settings';
 
@@ -76,7 +85,11 @@ const mainNavItems = [
   { title: 'Vinh danh', url: '/achievements', icon: Trophy },
   { title: 'Quỹ khuyến học', url: '/fund', icon: BookOpen },
   { title: 'Hương ước', url: '/charter', icon: ScrollText },
+  { title: 'Tìm quan hệ', url: '/relationship', icon: Route },
+  { title: 'Thống kê', url: '/stats', icon: BarChart3 },
   { title: 'Cầu đương', url: '/cau-duong', icon: RotateCcw },
+  { title: 'Góc giao lưu', url: '/feed', icon: MessageSquare },
+  { title: 'Thông báo', url: '/notifications', icon: Bell },
   { title: 'Tài liệu', url: '/documents', icon: FileText },
   { title: 'Hướng dẫn', url: '/help', icon: HelpCircle },
 ];
@@ -97,13 +110,25 @@ const adminNavItems = [
   { title: 'QL Hương ước', url: '/admin/charter', icon: ScrollText },
   { title: 'QL Cầu đương', url: '/admin/cau-duong', icon: RotateCcw },
   { title: 'QL Tài liệu', url: '/admin/documents', icon: FileText },
+  { title: 'QL Bài viết', url: '/admin/feed', icon: MessageSquare },
+  { title: 'Xuất dữ liệu', url: '/admin/export', icon: Download },
+  { title: 'Nhập GEDCOM', url: '/admin/import', icon: Upload },
+  { title: 'Trùng lặp', url: '/admin/duplicates', icon: Copy },
+  { title: 'Đơn ghi danh', url: '/admin/registrations', icon: Landmark },
   { title: 'Cài đặt', url: '/admin/settings', icon: Settings },
   { title: 'Sao lưu dữ liệu', url: '/admin/backup', icon: DatabaseBackup },
 ];
 
+// Core nav items shown in elderly mode (simplified sidebar)
+const ELDERLY_NAV_URLS = new Set(['/', '/tree', '/people', '/events', '/help']);
+
+// Admin items shown in elderly mode (essential only)
+const ELDERLY_ADMIN_URLS = new Set(['/admin', '/admin/users', '/admin/contributions']);
+
 export function AppSidebar() {
   const pathname = usePathname();
   const { user, profile, isAdmin, isEditor, signOut } = useAuth();
+  const { elderlyMode } = useElderly();
   const { data: cs } = useClanSettings();
   const clanName = cs?.clan_name ?? CLAN_NAME;
   const clanFullName = cs?.clan_full_name ?? CLAN_FULL_NAME;
@@ -136,6 +161,7 @@ export function AppSidebar() {
             <SidebarMenu>
               {mainNavItems
                 .filter((item) => !item.viewerHidden || isEditor)
+                .filter((item) => !elderlyMode || ELDERLY_NAV_URLS.has(item.url))
                 .map((item) => (
                 <SidebarMenuItem key={item.url}>
                   <SidebarMenuButton asChild isActive={item.url === '/' ? pathname === '/' : pathname.startsWith(item.url)}>
@@ -175,7 +201,7 @@ export function AppSidebar() {
             <SidebarGroupLabel>Quản trị</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {adminNavItems.map((item) => (
+                {adminNavItems.filter((item) => !elderlyMode || ELDERLY_ADMIN_URLS.has(item.url)).map((item) => (
                   <SidebarMenuItem key={item.url}>
                     <SidebarMenuButton asChild isActive={item.url === '/admin' ? pathname === '/admin' : pathname.startsWith(item.url)}>
                       <Link href={item.url}>
