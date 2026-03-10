@@ -119,7 +119,7 @@ export default function WelcomePage() {
         </div>
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32 text-center">
           <Badge variant="secondary" className="mb-6 text-sm px-4 py-1">
-            Open Source &middot; MIT License &middot; v2.4.0
+            Open Source &middot; MIT License &middot; v2.5.0
           </Badge>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-4">
             Gia Phả Điện Tử
@@ -142,12 +142,20 @@ export default function WelcomePage() {
             </Button>
           </div>
           <div className="mt-6">
-            <Button variant="link" className="text-emerald-200 hover:text-white" asChild>
-              <Link href="/login">
-                <LogIn className="mr-2 h-4 w-4" />
-                Con cháu họ Đặng làng Kỷ Các — Đăng nhập
-              </Link>
-            </Button>
+            <div className="flex items-center gap-3">
+              <Button variant="link" className="text-emerald-200 hover:text-white" asChild>
+                <Link href="/login">
+                  <LogIn className="mr-2 h-4 w-4" />
+                  Đăng nhập
+                </Link>
+              </Button>
+              <span className="text-emerald-400">|</span>
+              <Button variant="link" className="text-emerald-200 hover:text-white" asChild>
+                <Link href="/register">
+                  Đăng ký
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
       </section>
@@ -605,7 +613,7 @@ export default function WelcomePage() {
             <div className="flex items-center gap-2">
               <span className="text-lg">🌳</span>
               <span className="font-semibold text-gray-700">AncestorTree</span>
-              <span className="text-gray-400">v2.4.0</span>
+              <span className="text-gray-400">v2.5.0</span>
             </div>
             <div className="flex items-center gap-4">
               <a href={GITHUB_REPO} target="_blank" rel="noopener noreferrer" className="hover:text-gray-700">
